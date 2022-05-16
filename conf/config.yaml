@@ -1,0 +1,18 @@
+# 启动端口号
+server: 
+  post: 8080
+
+# MySQL数据源配置
+mysql:
+  username: root  
+  password: abc123
+  url: tcp(localhost:3306)/douyin_db?charset=utf8&parseTime=True&loc=Local
+
+# 视频路径配置
+upload:
+  savePath: 
+  accessUrl: 
+
+# JWT配置
+jwt:
+  signingKey: z3d6k8v0n3w7m9sa1fd0u09h
