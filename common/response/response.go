@@ -1,15 +1,16 @@
 package response
 
 import (
+	"douyin/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type Response struct {
-	Code    int         `json:"code"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
+	StatusCode int    `json:"status_code"`
+	Message    string `json:"status_msg,omitempty"`
+	// Data    interface{} `json:"data"`
 }
 
 // PageResult 分页结果返回
@@ -18,18 +19,48 @@ type PageResult struct {
 	List  interface{} `json:"list"`
 }
 
-// Success 请求成功返回
-func Success(message string, data interface{}, c *gin.Context) {
-	c.JSON(http.StatusOK, Response{200, message, data})
+// 用户的登录成功
+type UserLoginResponse struct {
+	Response
+	UserId uint64 `json:"user_id,omitempty"`
+	Token  string `json:"token"`
 }
+
+// 返回用户信息
+type UserResponse struct {
+	Response
+	User models.User `json:"user"`
+}
+
+// FeedResponse
+type FeedResponse struct {
+	Response
+	VideoList []models.Video `json:"video_list,omitempty"`
+	NextTime  int64          `json:"next_time,omitempty"`
+}
+
+// Success 请求成功返回
+func Successv1(message string, data interface{}, c *gin.Context) {
+	// c.JSON(http.StatusOK, Response{200, message, data})
+}
+
+func Success(message string, userId uint64, token string, c *gin.Context) {
+	c.JSON(http.StatusOK, UserLoginResponse{
+		Response: Response{StatusCode: 0},
+		UserId:   userId,
+		Token:    token,
+	})
+}
+
+// 返回用户信息
 
 // Failed 请求失败返回
 func Failed(message string, c *gin.Context) {
-	c.JSON(http.StatusOK, Response{400, message, 0})
+	// c.JSON(http.StatusOK, Response{400, message, 0})
 }
 
 // SuccessPage 请求成功返回分页结果
-func SuccessPage(message string, data interface{}, rows int64, c *gin.Context) {
-	page := &PageResult{Total: rows, List: data}
-	c.JSON(http.StatusOK, Response{200, message, page})
-}
+// func SuccessPage(message string, data interface{}, rows int64, c *gin.Context) {
+// 	page := &PageResult{Total: rows, List: data}
+// c.JSON(http.StatusOK, Response{200, message, page})
+// }

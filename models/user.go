@@ -2,12 +2,15 @@ package models
 
 // 数据库，用户数据映射模型
 type User struct {
-	Id       uint64 `gorm:"primayKey"`
-	Username string `gorm:"username"`
-	Password string `gorm:"password"`
-	Phone    string `gorm:"phone"`
-	CreateAt string `gorm:"create_at"`
-	UpdateAt string `gorm:"update_at"`
+	Id            uint64 `gorm:"primayKey" json:"id"`
+	Name          string `gorm:"username" json:"name"`
+	Password      string `gorm:"password"`
+	Phone         string `gorm:"phone"`
+	FollowCount   int64  `gorm:"follow_count" json:"follow_count,omitempty"`
+	FollowerCount int64  `gorm:"follower_count" json:"follower_count,omitempty"`
+	IsFollow      bool   `gorm:"is_follow" json:"is_follow,omitempty"`
+	CreateAt      string `gorm:"create_at"`
+	UpdateAt      string `gorm:"update_at"`
 }
 
 // 后台管理用户登录值对象ValueObject，用来传递参数

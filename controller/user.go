@@ -6,6 +6,7 @@ import (
 	"douyin/models"
 	"douyin/service"
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,27 +16,42 @@ var user service.WebUserService
 // Login 后台管理前端，用户登录
 func Login(c *gin.Context) {
 	var param models.AdminWebUserLoginVO
-	username, _ := c.GetPostForm("username")
-	fmt.Printf("username: %v\n", username)
-	if err := c.ShouldBind(&param); err != nil {
-		response.Failed("请求参数无效", c)
-		return
-	}
-	fmt.Printf("param: %v\n", param)
-	// 生成token
-	uid := user.Login(param)
 
-	fmt.Printf("uid: %v\n", uid)
+	param.Username = c.Query("username")
+	param.Password = c.Query("password")
+
+	// fmt.Printf("param: %v\n", param)
+
+	uid := user.Login(param)
 
 	// uid>0 说明在数据库中能查找到该用户
 	if uid > 0 {
 		token, _ := common.GenerateToke(param.Username)
-		userInfo := models.AdminWebUserInfo{
-			Uid:   uid,
-			Token: token,
-		}
-		response.Success("登录成功", userInfo, c)
+		// userInfo := models.AdminWebUserInfo{
+		// 	Uid:   uid,
+		// 	Token: token,
+		// }
+		response.Success("登录成功", uid, token, c)
+		fmt.Println("登录成功...")
 		return
 	}
 	response.Failed("用户名或密码错误", c)
+}
+
+// 只是测试
+func UserInfo(c *gin.Context) {
+	// token := c.Query("token")
+
+	user := models.User{
+		Id:            1,
+		Name:          "kkite",
+		FollowCount:   12,
+		FollowerCount: 10000,
+		IsFollow:      false,
+	}
+
+	c.JSON(http.StatusOK, response.UserResponse{
+		Response: response.Response{StatusCode: 0},
+		User:     user,
+	})
 }
