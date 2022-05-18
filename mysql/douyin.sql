@@ -29,4 +29,8 @@ VALUES
 (1,'kkite','abc123','12345678910'),
 (2,'zhangsan','abc123','12345678911');
 
+INSERT INTO `user`(id,`name`,`password`,phone,follow_count,follower_count)
+VALUES
+(3,'daisy','123456',"232212312321",100,132303);
+
 SELECT * FROM USER;
