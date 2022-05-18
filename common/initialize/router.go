@@ -30,7 +30,7 @@ func Router() {
 
 		web.GET("/user/", controller.UserInfo)
 		// 开启JWT认证，以下接口需要认证成功才能访问
-		web.Use(middleware.JwtAuth())
+		// web.Use(middleware.JwtAuth())
 
 	}
 
