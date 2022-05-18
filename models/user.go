@@ -3,7 +3,7 @@ package models
 // 数据库，用户数据映射模型
 type User struct {
 	Id            uint64 `gorm:"primayKey" json:"id"`
-	Name          string `gorm:"username" json:"name"`
+	Name          string `gorm:"name" json:"name"`
 	Password      string `gorm:"password"`
 	Phone         string `gorm:"phone"`
 	FollowCount   int64  `gorm:"follow_count" json:"follow_count,omitempty"`

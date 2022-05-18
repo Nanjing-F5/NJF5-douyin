@@ -9,7 +9,7 @@ import (
 
 type Response struct {
 	StatusCode int    `json:"status_code"`
-	Message    string `json:"status_msg,omitempty"`
+	StatusMsg  string `json:"status_msg,omitempty"`
 	// Data    interface{} `json:"data"`
 }
 
@@ -39,24 +39,27 @@ type FeedResponse struct {
 	NextTime  int64          `json:"next_time,omitempty"`
 }
 
-// Success 请求成功返回
-func Successv1(message string, data interface{}, c *gin.Context) {
-	// c.JSON(http.StatusOK, Response{200, message, data})
-}
-
 func Success(message string, userId uint64, token string, c *gin.Context) {
 	c.JSON(http.StatusOK, UserLoginResponse{
-		Response: Response{StatusCode: 0},
+		Response: Response{StatusCode: 0, StatusMsg: message},
 		UserId:   userId,
 		Token:    token,
 	})
 }
 
 // 返回用户信息
+func UserInfo(user models.User, c *gin.Context) {
+	c.JSON(http.StatusOK, UserResponse{
+		Response: Response{StatusCode: 0},
+		User:     user,
+	})
+}
 
 // Failed 请求失败返回
 func Failed(message string, c *gin.Context) {
-	// c.JSON(http.StatusOK, Response{400, message, 0})
+	c.JSON(http.StatusOK, UserLoginResponse{
+		Response: Response{StatusCode: 0, StatusMsg: message},
+	})
 }
 
 // SuccessPage 请求成功返回分页结果

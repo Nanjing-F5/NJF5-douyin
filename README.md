@@ -1,3 +1,12 @@
+# 0 进度
+## 5.18 20:30
+登录功能差不多
+调试：
+1. mysql/douyin.mysql
+2. 执行建表语句、执行插入语句
+3. 执行main.exe
+4. 打开app，使用数据库中的用户登录
+
 # 1 文件介绍
 
 ![douyin](https://gitee.com/kkite/blogimg/raw/master/202205160931683.png)

@@ -6,12 +6,11 @@ import (
 	"douyin/models"
 	"douyin/service"
 	"fmt"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-var user service.WebUserService
+var userService service.WebUserService
 
 // Login 后台管理前端，用户登录
 func Login(c *gin.Context) {
@@ -22,11 +21,11 @@ func Login(c *gin.Context) {
 
 	// fmt.Printf("param: %v\n", param)
 
-	uid := user.Login(param)
+	uid := userService.Login(param)
 
 	// uid>0 说明在数据库中能查找到该用户
 	if uid > 0 {
-		token, _ := common.GenerateToke(param.Username)
+		token, _ := common.GenerateToke(param.Username, uid)
 		// userInfo := models.AdminWebUserInfo{
 		// 	Uid:   uid,
 		// 	Token: token,
@@ -35,23 +34,30 @@ func Login(c *gin.Context) {
 		fmt.Println("登录成功...")
 		return
 	}
-	response.Failed("用户名或密码错误", c)
+	response.Failed("User doesn't exist", c)
 }
 
-// 只是测试
+// 获取当前登录用户信息
 func UserInfo(c *gin.Context) {
-	// token := c.Query("token")
+	token := c.Query("token")
 
-	user := models.User{
-		Id:            1,
-		Name:          "kkite",
-		FollowCount:   12,
-		FollowerCount: 10000,
-		IsFollow:      false,
+	user, err := userService.GetUserByToken(token)
+	if err != nil {
+		response.Failed(err.Error(), c)
 	}
 
-	c.JSON(http.StatusOK, response.UserResponse{
-		Response: response.Response{StatusCode: 0},
-		User:     user,
-	})
+	// user = models.User{
+	// 	Id:            1,
+	// 	Name:          "kkite",
+	// 	FollowCount:   12,
+	// 	FollowerCount: 10000,
+	// 	IsFollow:      false,
+	// }
+
+	if user.Id > 0 {
+		response.UserInfo(user, c)
+		return
+	}
+	response.Failed("User doesn't exist", c)
+
 }
