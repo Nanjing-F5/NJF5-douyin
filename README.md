@@ -8,6 +8,13 @@
 4. 打开app，使用数据库中的用户登录
 5. 登录成功会跳转到用户信息页
 
+## 5.24 17:10
+1. 修改了下user表结构，需要重新删除表再创建(/mysql/douyin.sql有对应语句)
+2. 基本完成注册功能
+   1. 调试:
+   2. 执行main.exe
+   3. 打开app -> 注册 -> 登录
+
 # 1 文件介绍
 
 ![douyin](https://gitee.com/kkite/blogimg/raw/master/202205160931683.png)

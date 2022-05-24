@@ -4,6 +4,8 @@ import (
 	"douyin/common"
 	"douyin/dao"
 	"douyin/models"
+
+	"github.com/golang-module/carbon/v2"
 )
 
 type WebUserService struct{}
@@ -15,6 +17,28 @@ func (u *WebUserService) Login(param models.AdminWebUserLoginVO) uint64 {
 	user := dao.UserMgr.Login(param.Username, param.Password)
 
 	return user.Id
+}
+
+func (u *WebUserService) Register(param models.AdminWebUserLoginVO) (bool, *models.User) {
+
+	user := dao.UserMgr.GetUserByName(param.Username)
+
+	if user.Id > 0 {
+		// 用户已存在
+		return false, nil
+	} else {
+		// 创建新用户
+		user.Name = param.Username
+		user.Password = param.Password
+		user.CreateAt = carbon.Now().ToDateTimeString()
+		user.UpdateAt = carbon.Now().ToDateTimeString()
+		dao.UserMgr.Register(&user)
+
+		user = dao.UserMgr.GetUserByName(param.Username)
+
+		return true, &user
+	}
+
 }
 
 func (u *WebUserService) GetUserByToken(token string) (models.User, error) {

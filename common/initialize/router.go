@@ -24,11 +24,12 @@ func Router() {
 
 	{
 		// 用户登录API
-		// web.POST("/user/login", controller.Login)
 		web.POST("/user/login/", controller.Login)
+		web.GET("/user/", controller.UserInfo)
+		web.POST("/user/register/", controller.Register)
+
 		web.GET("/feed/", controller.Feed)
 
-		web.GET("/user/", controller.UserInfo)
 		// 开启JWT认证，以下接口需要认证成功才能访问
 		// web.Use(middleware.JwtAuth())
 

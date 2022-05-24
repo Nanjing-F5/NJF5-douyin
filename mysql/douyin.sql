@@ -10,9 +10,9 @@ CREATE TABLE `user`(
 `phone` VARCHAR(20) NOT NULL COMMENT '手机号',
 `follow_count` BIGINT UNSIGNED COMMENT '关注数',
 `follower_count` BIGINT UNSIGNED COMMENT '粉丝数',
-`IsFollow` BIT  DEFAULT NULL COMMENT '是否关注',
-`create_at` DATE DEFAULT NULL COMMENT '创建时间',
-`update_at` DATE DEFAULT NULL COMMENT '更新时间',
+`is_follow` BOOL  DEFAULT NULL COMMENT '是否关注',
+`create_at` DATETIME DEFAULT NULL COMMENT '创建时间',
+`update_at` DATETIME DEFAULT NULL COMMENT '更新时间',
 PRIMARY KEY (`id`) USING BTREE
 );
 

@@ -19,17 +19,15 @@ func Login(c *gin.Context) {
 	param.Username = c.Query("username")
 	param.Password = c.Query("password")
 
-	// fmt.Printf("param: %v\n", param)
-
 	uid := userService.Login(param)
 
 	// uid>0 说明在数据库中能查找到该用户
 	if uid > 0 {
-		token, _ := common.GenerateToke(param.Username, uid)
-		// userInfo := models.AdminWebUserInfo{
-		// 	Uid:   uid,
-		// 	Token: token,
-		// }
+		token, err := common.GenerateToke(param.Username, uid)
+		if err != nil {
+			response.Failed("Generate token failed", c)
+		}
+
 		response.Success("登录成功", uid, token, c)
 		fmt.Println("登录成功...")
 		return
@@ -37,7 +35,7 @@ func Login(c *gin.Context) {
 	response.Failed("User doesn't exist", c)
 }
 
-// 获取当前登录用户信息
+// 响应当前登录用户信息
 func UserInfo(c *gin.Context) {
 	token := c.Query("token")
 
@@ -46,18 +44,34 @@ func UserInfo(c *gin.Context) {
 		response.Failed(err.Error(), c)
 	}
 
-	// user = models.User{
-	// 	Id:            1,
-	// 	Name:          "kkite",
-	// 	FollowCount:   12,
-	// 	FollowerCount: 10000,
-	// 	IsFollow:      false,
-	// }
-
 	if user.Id > 0 {
 		response.UserInfo(user, c)
 		return
 	}
 	response.Failed("User doesn't exist", c)
+}
 
+// 用户注册
+func Register(c *gin.Context) {
+	var param models.AdminWebUserLoginVO
+
+	fmt.Println("111")
+	param.Username = c.Query("username")
+	param.Password = c.Query("password")
+
+	flag, user := userService.Register(param)
+
+	fmt.Println("flag: ", flag)
+
+	if flag {
+		// 返回创建user的response
+		token, err := common.GenerateToke(user.Name, user.Id)
+		if err != nil {
+			response.Failed("Generate token failed", c)
+		}
+		response.Success("注册成功", user.Id, token, c)
+	} else {
+		// 返回user已存在的response
+		response.Failed("User already exist", c)
+	}
 }

@@ -39,6 +39,7 @@ type FeedResponse struct {
 	NextTime  int64          `json:"next_time,omitempty"`
 }
 
+// 登录成功和注册成功
 func Success(message string, userId uint64, token string, c *gin.Context) {
 	c.JSON(http.StatusOK, UserLoginResponse{
 		Response: Response{StatusCode: 0, StatusMsg: message},
@@ -58,7 +59,7 @@ func UserInfo(user models.User, c *gin.Context) {
 // Failed 请求失败返回
 func Failed(message string, c *gin.Context) {
 	c.JSON(http.StatusOK, UserLoginResponse{
-		Response: Response{StatusCode: 0, StatusMsg: message},
+		Response: Response{StatusCode: 1, StatusMsg: message},
 	})
 }
 
