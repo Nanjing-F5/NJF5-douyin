@@ -29,6 +29,7 @@ func Router() {
 		web.POST("/user/register/", controller.Register)
 
 		web.GET("/feed/", controller.Feed)
+		web.POST("/publish/action/", controller.Publish)
 
 		// 开启JWT认证，以下接口需要认证成功才能访问
 		// web.Use(middleware.JwtAuth())

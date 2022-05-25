@@ -63,6 +63,13 @@ func Failed(message string, c *gin.Context) {
 	})
 }
 
+func PublishSuccess(message string, c *gin.Context) {
+	c.JSON(http.StatusOK, Response{
+		StatusCode: 0,
+		StatusMsg:  message + " uploaded successfully",
+	})
+}
+
 // SuccessPage 请求成功返回分页结果
 // func SuccessPage(message string, data interface{}, rows int64, c *gin.Context) {
 // 	page := &PageResult{Total: rows, List: data}

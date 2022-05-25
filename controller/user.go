@@ -26,6 +26,7 @@ func Login(c *gin.Context) {
 		token, err := common.GenerateToke(param.Username, uid)
 		if err != nil {
 			response.Failed("Generate token failed", c)
+			return
 		}
 
 		response.Success("登录成功", uid, token, c)
@@ -42,6 +43,7 @@ func UserInfo(c *gin.Context) {
 	user, err := userService.GetUserByToken(token)
 	if err != nil {
 		response.Failed(err.Error(), c)
+		return
 	}
 
 	if user.Id > 0 {
@@ -68,6 +70,7 @@ func Register(c *gin.Context) {
 		token, err := common.GenerateToke(user.Name, user.Id)
 		if err != nil {
 			response.Failed("Generate token failed", c)
+			return
 		}
 		response.Success("注册成功", user.Id, token, c)
 	} else {

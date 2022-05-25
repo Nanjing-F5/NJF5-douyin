@@ -22,8 +22,8 @@ type Mysql struct {
 
 // 文件上传相关路径配置
 type Upload struct {
-	SavePath  string `mapstructure:"savePath"`
-	AccessUrl string `mapstructure:"accessUrl"`
+	VideoUrl string `mapstructure:"videoPath"`
+	CoverUrl string `mapstructure:"coverUrl"`
 }
 
 // 用户认证配置

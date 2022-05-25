@@ -10,8 +10,8 @@ mysql:
 
 # 视频路径配置
 upload:
-  savePath: 
-  accessUrl: 
+  videoUrl: http://10.136.240.231:8080/static/
+  coverUrl: http://10.136.240.231:8080/static/bear-1283347_1280.jpg
 
 # JWT配置
 jwt:

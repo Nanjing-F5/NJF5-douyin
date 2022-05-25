@@ -15,6 +15,15 @@
    2. 执行main.exe
    3. 打开app -> 注册 -> 登录
 
+## 5.25 21:00
+1. 新建了video表
+2. 实现了用户上传视频 douyin/publish/action/
+   1. 测试：
+   2. 执行main.exe
+   3. 打开app -> 登录 -> 点击'+'号上传视频
+   4. 返回 发布成功
+   5. 查看 video 表视频相关信息是否保存
+
 # 1 文件介绍
 
 ![douyin](https://gitee.com/kkite/blogimg/raw/master/202205160931683.png)
